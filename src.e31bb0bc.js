@@ -32341,6 +32341,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function Form({
   onSubmit,
+  onCreateYourStorage,
   onTransfer,
   onMint,
   currentUser
@@ -32382,20 +32383,24 @@ function Form({
     className: "d-flex justify-content-between"
   }, /*#__PURE__*/_react.default.createElement("button", {
     className: "btn btn-primary",
-    onClick: onSubmit
-  }, "Create Storage"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: onCreateYourStorage
+  }, "1- Create Your Storage"), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn btn-primary",
     onClick: onMint
-  }, "Mint"), /*#__PURE__*/_react.default.createElement("button", {
+  }, "2- Mint"), /*#__PURE__*/_react.default.createElement("button", {
+    className: "btn btn-primary",
+    onClick: onSubmit
+  }, "3- Create Reciever Storage"), /*#__PURE__*/_react.default.createElement("button", {
     className: "btn btn-primary ml-1",
     onClick: onTransfer
-  }, "Transfer"))), /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("a", {
+  }, "4- Transfer"))), /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("a", {
     href: "https://wallet.testnet.near.org/"
   }, "Check your Account BUTTs")));
 }
 
 Form.propTypes = {
   onSubmit: _propTypes.default.func.isRequired,
+  onCreateYourStorage: _propTypes.default.func.isRequired,
   onTransfer: _propTypes.default.func.isRequired,
   onMint: _propTypes.default.func.isRequired,
   currentUser: _propTypes.default.shape({
@@ -38200,6 +38205,27 @@ const App = ({
     }, BOATLOAD_OF_GAS, (0, _big.default)('0.00125').times(10 ** 24).toFixed()).then(res => {}); // });
   };
 
+  const onCreateYourStorage = e => {
+    e.preventDefault();
+    const {
+      fieldset,
+      message,
+      donation,
+      NFTLINK
+    } = e.target.parentElement.parentElement.parentElement.elements;
+    fieldset.disabled = true; // TODO: optimistically update page with new message,
+    // update blockchain data in background
+    // add uuid to each message, so we know which one is already known
+    // contract.new_default_meta({
+    //   "owner_id": currentUser.accountId
+    // }).then(res => {
+    // console.log("new Meta, ", res);
+
+    contract.storage_deposit({
+      "account_id": currentUser.accountId
+    }, BOATLOAD_OF_GAS, (0, _big.default)('0.00125').times(10 ** 24).toFixed()).then(res => {}); // });
+  };
+
   const onMint = e => {
     e.preventDefault();
     const {
@@ -38262,6 +38288,7 @@ const App = ({
     onClick: signIn
   }, "Log in")), currentUser ? /*#__PURE__*/_react.default.createElement(_Form.default, {
     onSubmit: onSubmit,
+    onCreateYourStorage: onCreateYourStorage,
     onMint: onMint,
     onTransfer: onTransfer,
     currentUser: currentUser
@@ -58182,7 +58209,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38097" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45893" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
